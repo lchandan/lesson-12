@@ -1,6 +1,6 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
-import { connect } from 'react-redux';
+import {connect} from 'react-redux';
 
 import { auth } from '../../firebase/firebase.utils';
 
@@ -14,15 +14,18 @@ const Header = ({ currentUser }) => (
       <Logo className='logo' />
     </Link>
     <div className='options'>
+      <div>{
+        currentUser? `Welcome ${currentUser.displayName.toUpperCase()}` : ''      
+      }</div>
       <Link className='option' to='/shop'>
         SHOP
       </Link>
-      <Link className='option' to='/shop'>
+      <Link className='option' to='/contact'>
         CONTACT
       </Link>
       {currentUser ? (
         <div className='option' onClick={() => auth.signOut()}>
-          SIGN OUT
+          SIGN OUT 
         </div>
       ) : (
         <Link className='option' to='/signin'>
@@ -33,8 +36,12 @@ const Header = ({ currentUser }) => (
   </div>
 );
 
-const mapStateToProps = state => ({
-  currentUser: state.user.currentUser
-});
+const mapStateToProps = (state) => {
+  console.log("currentUser in mapstatetoprops",state.user.currentUser );
+ return {
+    currentUser: state.user.currentUser
+  }
+}
+  
 
-export default connect(mapStateToProps)(Header);
+export default connect(mapStateToProps, null)(Header);
